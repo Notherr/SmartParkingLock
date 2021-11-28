@@ -5,6 +5,8 @@
 #include <SoftwareSerial.h>
 #include "SNIPE.h"
 
+#define TXpin 11
+#define RXpin 10
 #define ATSerial Serial
 
 //16byte hex key
@@ -102,9 +104,9 @@ void loop() {
 
  // if payload의 잘린 부분이 end라면,
     if (startOrEnd == "end"){
-      String url = "http://ec2-3-37-183-92.ap-northeast-2.compute.amazonaws.com:8080/api_v1/parking_record_end?id=" + parkingLotId;
+      String url = "http://ec2-3-37-183-92.ap-northeast-2.compute.amazonaws.com:8080/api_v1/parking_record_end";
       http.begin(wifiClient, url);
-      int httpCode = http.PATCH();
+      int httpCode = http.PATCH(parkingLotId);
       if (httpCode == 200) {
         String idAndEndTime = http.getString();
         DebugSerial.println(idAndEndTime);
